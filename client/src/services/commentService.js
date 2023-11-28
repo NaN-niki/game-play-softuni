@@ -7,7 +7,11 @@ export const createComment = (gameId, username, text) => {
     return request.post(baseUrl, { gameId, username, text })
 }
 
-export const getAllByGame = async () => {
-    const result = await request.get(baseUrl)
+export const getAllByGame = async (gameId) => {
+    const query = new URLSearchParams({
+        where: `gameId="${gameId}"`
+    })
+    //TODO
+    const result = await request.get(`${baseUrl}?${query}`)
     return Object.values(result)
 }

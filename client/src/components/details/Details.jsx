@@ -10,7 +10,7 @@ export function GameDetails() {
 
     useEffect(() => {
         gameService.getOne(id).then(setGame)
-        commentsService.getAllByGame().then(setComments)
+        commentsService.getAllByGame(id).then(setComments)
     }, [id])
 
     const addCommentHandler = async (e) => {
