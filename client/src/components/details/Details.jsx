@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import * as gameService from '../../services/gameService'
+import * as commentsService from '../../services/commentService'
 
 export function GameDetails() {
-    const {id} = useParams()
+    const { id } = useParams()
     const [game, setGame] = useState({})
+    const [comments, setComments] = useState([])
 
-    useEffect(()=> {
+    useEffect(() => {
         gameService.getOne(id).then(setGame)
+        commentsService.getAllByGame().then(setComments)
     }, [id])
 
-    console.log(game)
+    const addCommentHandler = async (e) => {
+        e.preventDefault()
+        const comment = e.target.comment.value
+        const username = e.target.username.value
+        const newComment = await commentsService.createComment(id, username, comment)
+        setComments(comments => [...comments, newComment])
+    }
 
     return (
         <section id="game-details">
@@ -31,14 +40,14 @@ export function GameDetails() {
                 <div className="details-comments">
                     <h2>Comments:</h2>
                     <ul>
-                        <li className="comment">
-                            <p>Content: I rate this one quite highly.</p>
+                        {comments.map(c => (
+                            <li key={c._id} className="comment">
+                            <p>{c.username}: {c.text}</p>
                         </li>
-                        <li className="comment">
-                            <p>Content: The best game.</p>
-                        </li>
-                    </ul> 
-                    <p className="no-comment">No comments.</p>
+                        ))}
+                        
+                    </ul>
+                    {comments.length == 0 && <p className="no-comment">No comments.</p>}
                 </div>
 
                 {/* Edit/Delete buttons ( Only for creator of this game )  */}
@@ -51,7 +60,8 @@ export function GameDetails() {
             {/* <!-- Add Comment ( Only for logged-in users, which is not creators of the current game ) --> */}
             <article className="create-comment">
                 <label>Add new comment:</label>
-                <form className="form">
+                <form className="form" onSubmit={addCommentHandler}>
+                    <input type="text" name="username" id="username" placeholder="Type your username" />
                     <textarea name="comment" placeholder="Comment......"></textarea>
                     <input className="btn submit" type="submit" value="Add Comment" />
                 </form>
