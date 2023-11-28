@@ -5,6 +5,7 @@ import { Home } from './components/home/Home'
 import { Route, Routes } from 'react-router-dom'
 import { Login } from './components/login/Login'
 import { Register } from './components/register/Register'
+import { GameDetails } from './components/details/Details'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='games' element={<Catalog />} />
         <Route path='games/create' element={<CreateGame />} />
+        <Route path='games/:id/details' element={<GameDetails />} />
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
       </Routes>

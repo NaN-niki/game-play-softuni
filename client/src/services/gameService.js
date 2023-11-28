@@ -10,3 +10,8 @@ export const getAll = async () => {
 export const create = async (data) => {
     return await request.post(baseUrl, data)
 }
+
+export const getOne = async (id) => {
+    const result = await request.get(`${baseUrl}/${id}`)
+    return result
+}
