@@ -1,10 +1,19 @@
 export const request = async (method, url, body) => {
 
-    try {
-        const response = await fetch(url, {
+    let options = {}
+
+    if(body){
+        options = {
             method,
-            body
-        })
+            headers : {
+                'content-type' : 'application/json',
+            },
+            body : JSON.stringify(body)
+        }
+    }
+
+    try {
+        const response = await fetch(url, options)
         
         if (!response.ok) {
             throw new Error('')
