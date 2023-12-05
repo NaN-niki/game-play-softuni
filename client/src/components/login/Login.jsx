@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom"
 import useForm from "../../hooks/useForm"
 
-export function Login() {
-    const {formValues, onSubmitHandler, onChangeHandler} = useForm({
+export function Login({ loginSubmitHandler }) {
+    const { formValues, onSubmit, onChangeHandler } = useForm(loginSubmitHandler, {
         email: '',
         password: ''
     })
-    
+
     return (
         <section id="login-page" className="auth">
-            <form id="login" onSubmit={onSubmitHandler}>
+            <form id="login" onSubmit={onSubmit}>
 
                 <div className="container">
                     <div className="brand-logo"></div>
