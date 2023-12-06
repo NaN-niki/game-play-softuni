@@ -16,10 +16,10 @@ export function GameDetails() {
     const addCommentHandler = async (e) => {
         e.preventDefault()
         const comment = e.target.comment.value
-        const username = e.target.username.value
-        const newComment = await commentsService.createComment(id, username, comment)
+        const newComment = await commentsService.createComment(id, comment)
         setComments(comments => [...comments, newComment])
     }
+    console.log(comments)
 
     return (
         <section id="game-details">
@@ -42,7 +42,7 @@ export function GameDetails() {
                     <ul>
                         {comments.map(c => (
                             <li key={c._id} className="comment">
-                            <p>{c.username}: {c.text}</p>
+                            <p>{c.owner.email}: {c.text}</p>
                         </li>
                         ))}
                         

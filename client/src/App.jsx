@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 
 import AuthContext from './contexts/authContext'
@@ -14,6 +14,10 @@ import { GameDetails } from './components/details/Details'
 import Logout from './components/logout/Logout'
 
 function App() {
+
+  // useEffect(()=> {
+  //   localStorage.removeItem('token')
+  // },[])
 
   //authentication data shte q durjim tuk (za lognatiq user)
   //danni koito survura vrushta kato se lognem i koito iskame da zapazim

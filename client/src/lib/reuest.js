@@ -8,21 +8,10 @@ const request = async (method, url, body) => {
 
     if (body) {
         options.body = JSON.stringify(body)
-        // options = {
-        //     method,
-        //     headers: {
-        //         'content-type': 'application/json',
-        //     },
-        //     body: JSON.stringify(body)
-        // }
     }
 
     if (accessToken) {
         options.headers['X-Authorization'] = accessToken
-        // options.headers = {
-        //     ...options.headers,
-        //     'X-Authorization': accessToken
-        // }
     }
 
     try {
@@ -33,6 +22,10 @@ const request = async (method, url, body) => {
         }
         if (response.status == 204) {
             return {}
+        }
+        if(response.status == 403){
+            throw new Error('Invalid access token')
+            //navigate to login
         }
 
         return await response.json()
