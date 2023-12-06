@@ -7,6 +7,7 @@ import { Login } from './components/login/Login'
 import { Register } from './components/register/Register'
 import { GameDetails } from './components/details/Details'
 import { useState } from 'react'
+import AuthContext from './contexts/authContext'
 
 function App() {
 
@@ -22,16 +23,17 @@ function App() {
 
   return (
     <div id='box'>
-      <Header />
-
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='games' element={<Catalog />} />
-        <Route path='games/create' element={<CreateGame />} />
-        <Route path='games/:id/details' element={<GameDetails />} />
-        <Route path='login' element={<Login loginSubmitHandler={loginSubmitHandler} />} />
-        <Route path='register' element={<Register />} />
-      </Routes>
+      <AuthContext.Provider value={{name : 'Pesho'}}>
+        <Header />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='games' element={<Catalog />} />
+          <Route path='games/create' element={<CreateGame />} />
+          <Route path='games/:id/details' element={<GameDetails />} />
+          <Route path='login' element={<Login loginSubmitHandler={loginSubmitHandler} />} />
+          <Route path='register' element={<Register />} />
+        </Routes>
+      </AuthContext.Provider>
     </div>
   )
 }
