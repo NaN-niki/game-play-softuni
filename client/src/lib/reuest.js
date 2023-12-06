@@ -1,14 +1,28 @@
 const request = async (method, url, body) => {
-    let options = {}
+    let options = {
+        method,
+        headers: {},
+    }
+
+    const accessToken = localStorage.getItem('token')
 
     if (body) {
-        options = {
-            method,
-            headers: {
-                'content-type': 'application/json',
-            },
-            body: JSON.stringify(body)
-        }
+        options.body = JSON.stringify(body)
+        // options = {
+        //     method,
+        //     headers: {
+        //         'content-type': 'application/json',
+        //     },
+        //     body: JSON.stringify(body)
+        // }
+    }
+
+    if (accessToken) {
+        options.headers['X-Authorization'] = accessToken
+        // options.headers = {
+        //     ...options.headers,
+        //     'X-Authorization': accessToken
+        // }
     }
 
     try {
@@ -16,6 +30,9 @@ const request = async (method, url, body) => {
 
         if (!response.ok) {
             throw new Error('')
+        }
+        if (response.status == 204) {
+            return {}
         }
 
         return await response.json()
