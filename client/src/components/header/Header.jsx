@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import AuthContext from "../../contexts/authContext";
 
 export function Header() {
-    const { name } = useContext(AuthContext)
+    const auth = useContext(AuthContext)
+    console.log(auth)
     
     return (
         <header>
             <h1><a className="home" href="/">GamesPlay</a></h1>
-            <h2>Hello, {name}</h2>
+            <h2>Hello, {auth.username}</h2>
             <nav>
                 <Link to='/games'>All Games</Link>
 
