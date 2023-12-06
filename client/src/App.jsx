@@ -23,12 +23,22 @@ function App() {
   //login podava dannite 
   const loginSubmitHandler = async (values) => {
     const data = await authService.login(values.email, values.password)
-    // setAuth({
-    //   email: data.email,
-    //   token: data.accessToken
-    // })
     setAuth(data)
     navigate('/')
+  }
+
+  const registerSubmitHandler = async (values) => {
+    const data = await authService.register(values.email, values.password)
+    setAuth(data)
+    navigate('/')
+  }
+
+  const authContextValues = {
+    email: auth.email,
+    username: auth.username || auth.email,
+    token: auth.token,
+    _id: auth._id,
+    isAuthenticated: Boolean(auth.email)
   }
 
   console.log(auth)
@@ -36,7 +46,7 @@ function App() {
 
   return (
     <div id='box'>
-      <AuthContext.Provider value={auth}>
+      <AuthContext.Provider value={authContextValues}>
         <Header />
         <Routes>
           <Route path='/' element={<Home />} />
@@ -44,7 +54,7 @@ function App() {
           <Route path='games/create' element={<CreateGame />} />
           <Route path='games/:id/details' element={<GameDetails />} />
           <Route path='login' element={<Login loginSubmitHandler={loginSubmitHandler} />} />
-          <Route path='register' element={<Register />} />
+          <Route path='register' element={<Register registerSubmitHandler={registerSubmitHandler} />} />
         </Routes>
       </AuthContext.Provider>
     </div>
