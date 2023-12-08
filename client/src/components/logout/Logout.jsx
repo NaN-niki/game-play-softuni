@@ -1,8 +1,10 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import * as authService from '../../services/authService'
+import { AuthContext } from "../../contexts/authContext";
 
 
-export default function Logout({logoutHandler}) {
+export default function Logout() {
+    const { logoutHandler} = useContext(AuthContext)
 
     useEffect(() => {
         authService.logout()
