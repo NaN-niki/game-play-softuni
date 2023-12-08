@@ -17,6 +17,7 @@ export function GameDetails() {
         e.preventDefault()
         const comment = e.target.comment.value
         const newComment = await commentsService.createComment(id, comment)
+        //opravi si comments 
         setComments(comments => [...comments, newComment])
     }
     console.log(comments)
