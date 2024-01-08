@@ -11,6 +11,10 @@ export function Catalog() {
         })
     }, [])
 
+    //umishleno hvurlqne na greshka pri renderiraneto
+    // if(Math.random() < 0.5){
+    //     throw new Error('Invoked')
+    // }
     return (
         <section id="catalog-page">
             <h1>All Games</h1>
