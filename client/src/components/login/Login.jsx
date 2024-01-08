@@ -23,6 +23,7 @@ export function Login() {
                     <label htmlFor="login-pass">Password:</label>
                     <input type="password" id="login-password" name="password" value={formValues.password} onChange={onChangeHandler} />
                     <input type="submit" className="btn submit" />
+                    
                     <p className="field">
                         <span>If you don&apos;t have profile click <Link to='/register'>here</Link></span>
                     </p>

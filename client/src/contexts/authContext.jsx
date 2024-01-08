@@ -16,9 +16,9 @@ export default function AuthProvider({ children }) {
     const navigate = useNavigate()
 
     //callback koito chaka da bude izvikan ot login i da mu podade values i da zapochne da se izpulnqva logikata tuk
-    //danni koito survura vrushta kato se lognem i koito iskame da zapazim
     const loginSubmitHandler = async (values) => {
         const data = await authService.login(values.email, values.password)
+        //danni koito survura vrushta kato se lognem i koito iskame da zapazim
         setAuth(data)
         localStorage.setItem('token', data.accessToken)
         navigate('/')

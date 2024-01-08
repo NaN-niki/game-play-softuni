@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import * as gameService from '../../services/gameService'
 import * as commentsService from '../../services/commentService'
+import { AuthContext } from "../../contexts/authContext"
 
 export function GameDetails() {
     const { id } = useParams()
     const [game, setGame] = useState({})
     const [comments, setComments] = useState([])
+    const { isAuthenticated, _id, username } = useContext(AuthContext)
 
     useEffect(() => {
         gameService.getOne(id).then(setGame)
@@ -17,10 +19,9 @@ export function GameDetails() {
         e.preventDefault()
         const comment = e.target.comment.value
         const newComment = await commentsService.createComment(id, comment)
-        //opravi si comments 
+        newComment.ownerUsername = username
         setComments(comments => [...comments, newComment])
     }
-    console.log(comments)
 
     return (
         <section id="game-details">
@@ -43,30 +44,32 @@ export function GameDetails() {
                     <ul>
                         {comments.map(c => (
                             <li key={c._id} className="comment">
-                            <p>{c.owner.email}: {c.text}</p>
-                        </li>
+                                <p>{c.ownerUsername || c.owner.username}: {c.text}</p>
+                            </li>
                         ))}
-                        
+
                     </ul>
                     {comments.length == 0 && <p className="no-comment">No comments.</p>}
                 </div>
 
-                {/* Edit/Delete buttons ( Only for creator of this game )  */}
-                <div className="buttons">
-                    <a href="#" className="button">Edit</a>
-                    <a href="#" className="button">Delete</a>
-                </div>
+                {_id == game._ownerId &&
+                    <div className="buttons">
+                        <a href="#" className="button">Edit</a>
+                        <a href="#" className="button">Delete</a>
+                    </div>
+                }
             </div>
 
             {/* <!-- Add Comment ( Only for logged-in users, which is not creators of the current game ) --> */}
-            <article className="create-comment">
-                <label>Add new comment:</label>
-                <form className="form" onSubmit={addCommentHandler}>
-                    <input type="text" name="username" id="username" placeholder="Type your username" />
-                    <textarea name="comment" placeholder="Comment......"></textarea>
-                    <input className="btn submit" type="submit" value="Add Comment" />
-                </form>
-            </article>
+            {isAuthenticated == true && _id !== game._ownerId &&
+                <article className="create-comment">
+                    <label>Add new comment:</label>
+                    <form className="form" onSubmit={addCommentHandler}>
+                        <textarea name="comment" placeholder="Comment......"></textarea>
+                        <input className="btn submit" type="submit" value="Add Comment" />
+                    </form>
+                </article>
+            }
 
         </section>
     )

@@ -12,10 +12,6 @@ import Logout from './components/logout/Logout'
 
 function App() {
 
-  // useEffect(()=> {
-  //   localStorage.removeItem('token')
-  // },[])
-
   return (
     <div id='box'>
       <AuthProvider>  {/* pak vrushta provider */}

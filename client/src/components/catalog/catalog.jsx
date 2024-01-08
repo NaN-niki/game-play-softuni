@@ -14,7 +14,8 @@ export function Catalog() {
     return (
         <section id="catalog-page">
             <h1>All Games</h1>
-            {games.map(game => <GameItem key={game._id} data={game}/>)}
+
+            {games.length > 0 && games.map(game => <GameItem key={game._id} data={game}/>)}
            
            {games.length === 0 &&  <h3 className="no-articles">No articles yet</h3>}
         </section>
