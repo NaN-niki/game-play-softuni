@@ -15,3 +15,7 @@ export const getOne = async (id) => {
     const result = await request.get(`${baseUrl}/${id}`)
     return result
 }
+
+export const deleteGame = (id) => request.del(`${baseUrl}/${id}`)
+
+export const editGame = (id, data) => request.put(`${baseUrl}/${id}`, data)

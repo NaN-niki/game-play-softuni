@@ -41,7 +41,7 @@ export function CreateGame() {
                     <label htmlFor="summary">Summary:</label>
                     <textarea name="summary" id="summary"></textarea>
 
-                    {errors.serverError && <p style={{ color: 'red', margin: '2em' }}>{errors.serverError}</p>}
+                    {errors?.serverError && <p style={{ color: 'red', margin: '2em' }}>{errors.serverError}</p>}
                     <input className="btn submit" type="submit" value="Create Game" />
                 </div>
             </form>

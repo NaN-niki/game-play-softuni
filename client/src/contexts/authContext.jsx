@@ -27,7 +27,7 @@ export default function AuthProvider({ children }) {
             setAuth(data)
             localStorage.setItem('token', data.accessToken)
             setError(errors => ({ ...errors, loginErrorMsg: undefined }))
-            navigate('/')
+            navigate(-1)
         } catch (error) {
             navigate('/login')
             setError(errors => ({ ...errors, loginErrorMsg: error.message }))

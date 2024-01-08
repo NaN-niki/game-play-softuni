@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import * as gameService from '../../services/gameService'
 import * as commentsService from '../../services/commentService'
 import { AuthContext } from "../../contexts/authContext"
@@ -9,6 +9,7 @@ export function GameDetails() {
     const [game, setGame] = useState({})
     const [comments, setComments] = useState([])
     const { isAuthenticated, _id, username } = useContext(AuthContext)
+    const navigate = useNavigate()
 
     useEffect(() => {
         gameService.getOne(id).then(setGame)
@@ -21,6 +22,15 @@ export function GameDetails() {
         const newComment = await commentsService.createComment(id, comment)
         newComment.ownerUsername = username
         setComments(comments => [...comments, newComment])
+    }
+
+    const deleteHandler = async (e) => {
+        e.preventDefault()
+        const confirmed = confirm('Are you sure you want to delete this?')
+        if(confirmed){
+            gameService.deleteGame(game._id)
+            navigate('/games')
+        }
     }
 
     return (
@@ -54,8 +64,8 @@ export function GameDetails() {
 
                 {_id == game._ownerId &&
                     <div className="buttons">
-                        <a href="#" className="button">Edit</a>
-                        <a href="#" className="button">Delete</a>
+                        <Link to={`/games/${game._id}/edit`} className="button">Edit</Link>
+                        <button onClick={deleteHandler} className="button">Delete</button>
                     </div>
                 }
             </div>
