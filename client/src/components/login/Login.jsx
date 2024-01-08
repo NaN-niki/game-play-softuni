@@ -4,7 +4,7 @@ import { useContext } from "react"
 import { AuthContext } from "../../contexts/authContext"
 
 export function Login() {
-    const { loginSubmitHandler } = useContext(AuthContext)
+    const { loginSubmitHandler, serverError } = useContext(AuthContext)
     const { formValues, onSubmit, onChangeHandler } = useForm(loginSubmitHandler, {
         email: '',
         password: ''
@@ -22,8 +22,10 @@ export function Login() {
 
                     <label htmlFor="login-pass">Password:</label>
                     <input type="password" id="login-password" name="password" value={formValues.password} onChange={onChangeHandler} />
+                    {serverError?.loginErrorMsg && <p style={{color: 'red', margin: '2em'}}>{serverError.loginErrorMsg}</p>}
+
                     <input type="submit" className="btn submit" />
-                    
+
                     <p className="field">
                         <span>If you don&apos;t have profile click <Link to='/register'>here</Link></span>
                     </p>

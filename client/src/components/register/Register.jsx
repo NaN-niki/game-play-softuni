@@ -4,13 +4,12 @@ import { useContext } from "react"
 import { AuthContext } from "../../contexts/authContext"
 
 export function Register() {
-    const { registerSubmitHandler } = useContext(AuthContext)
+    const { registerSubmitHandler, serverError } = useContext(AuthContext)
     const { formValues, onSubmit, onChangeHandler } = useForm(registerSubmitHandler, {
         email: '',
         password: '',
         rePass: '',
     })
-
 
     return (
         <section id="register-page" className="content auth">
@@ -29,6 +28,8 @@ export function Register() {
                     <input type="password" name="rePass" id="rePass" value={formValues.rePass} onChange={onChangeHandler} />
 
                     <input className="btn submit" type="submit" value="Register" />
+
+                    {serverError?.registerErrorMsg && <p style={{color: 'red', margin: '2em'}}>{serverError.registerErrorMsg}</p>}
 
                     <p className="field">
                         <span>If you already have profile click <Link to='/login'>here</Link></span>

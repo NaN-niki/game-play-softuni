@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom"
 import * as gameService from "../../services/gameService"
- 
+import { useState } from "react"
+
 export function CreateGame() {
     const navigate = useNavigate()
+    const { errors, setErrors } = useState()
 
     const createGameHandler = async (e) => {
         e.preventDefault()
@@ -10,14 +12,13 @@ export function CreateGame() {
         const formData = new FormData(e.target)
         const gameData = Object.fromEntries(formData.entries())
 
-        //validation ??
         try {
             await gameService.create(gameData)
             navigate('/games')
         } catch (error) {
-            console.log(error)
+            setErrors(errors => ({ ...errors, serverError: error.message }))
         }
-    } 
+    }
 
     return (
         <section id="create-page" className="auth">
@@ -39,6 +40,8 @@ export function CreateGame() {
 
                     <label htmlFor="summary">Summary:</label>
                     <textarea name="summary" id="summary"></textarea>
+
+                    {errors.serverError && <p style={{ color: 'red', margin: '2em' }}>{errors.serverError}</p>}
                     <input className="btn submit" type="submit" value="Create Game" />
                 </div>
             </form>

@@ -14,24 +14,20 @@ const request = async (method, url, body) => {
         options.headers['X-Authorization'] = accessToken
     }
 
-    try {
-        const response = await fetch(url, options)
+    const response = await fetch(url, options)
 
-        if (!response.ok) {
-            throw new Error('')
-        }
-        if (response.status == 204) {
-            return {}
-        }
-        if(response.status == 403){
-            throw new Error('Invalid access token')
-            //navigate to login
-        }
-
-        return await response.json()
-    } catch (error) {
-        console.log(error.msg)
+    if (response.status == 204) {
+        return []
     }
+    
+    const result = await response.json()
+
+    if (response.ok !== true) {
+        throw new Error(result.message)
+    }
+
+    return result
+
 }
 
 //partial application
