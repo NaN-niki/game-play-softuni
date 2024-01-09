@@ -19,3 +19,13 @@ export const getOne = async (id) => {
 export const deleteGame = (id) => request.del(`${baseUrl}/${id}`)
 
 export const editGame = (id, data) => request.put(`${baseUrl}/${id}`, data)
+
+export const latestGames = async () => {
+    const query = new URLSearchParams({
+        offset: 0,
+        pageSize: 3
+    })
+
+    const result = await request.get(`${baseUrl}?${query}`)
+    return result
+}
